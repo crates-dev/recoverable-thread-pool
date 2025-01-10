@@ -9,7 +9,7 @@ impl Worker {
         let thread: JoinHandle<()> = recoverable_spawn(move || loop {
             if let Ok(receiver_lock) = receiver.lock() {
                 if let Ok(job) = receiver_lock.recv() {
-                    job();
+                    let _: SpawnResult = run_function(job);
                 }
             }
         });

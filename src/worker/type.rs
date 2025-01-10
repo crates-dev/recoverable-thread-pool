@@ -1,6 +1,5 @@
-use std::thread::JoinHandle;
-
 use lombok_macros::*;
+use std::thread::JoinHandle;
 
 #[allow(dead_code)]
 #[derive(Lombok)]

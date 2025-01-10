@@ -1,7 +1,10 @@
 use crate::worker::r#type::Worker;
-use std::sync::mpsc::Sender;
+use recoverable_spawn::*;
+use std::sync::mpsc::{SendError, Sender};
 
-pub type ThreadPoolJob = Box<dyn FnOnce() + Send + 'static>;
+pub type ThreadPoolJob = Box<dyn RecoverableFunction>;
+pub type SendErrorBox = SendError<ThreadPoolJob>;
+pub type SendResult = Result<(), SendErrorBox>;
 
 pub struct ThreadPool {
     #[allow(dead_code)]

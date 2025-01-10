@@ -33,13 +33,13 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "0.2.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2eab61c6cdded37bcd943373240bb288ea87917af577242bb00bcdae7791fb18"
+checksum = "18e573621fa93ea2a85c30e7041226400a481c9bea2046388cd2fd6204148fcf"
 
 [[package]]
 name = "recoverable-thread-pool"
-version = "0.0.2"
+version = "0.1.0"
 dependencies = [
  "lombok-macros",
  "recoverable-spawn",

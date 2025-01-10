@@ -23,13 +23,31 @@ cargo add recoverable-thread-pool
 
 ```rust
 use recoverable_thread_pool::*;
-let thread_pool: ThreadPool = ThreadPool::new(2);
-thread_pool.execute(|| {
-    println!("first");
-});
-thread_pool.execute(|| {
-    println!("second");
-});
+let thread_pool: ThreadPool = ThreadPool::new(1);
+let first_res: SendResult = thread_pool.execute(
+    || {
+        println!("first");
+    },
+    |_err| {},
+);
+println!("{:?}", first_res);
+let panic_res: SendResult = thread_pool.execute(
+    || {
+        panic!("[panic]");
+    },
+    |err| {
+        println!("Catch panic {}", err);
+    },
+);
+println!("{:?}", panic_res);
+let second_res: SendResult = thread_pool.execute(
+    || {
+        println!("second");
+    },
+    |_err| {},
+);
+println!("{:?}", second_res);
+loop {}
 ```
 
 ## License
