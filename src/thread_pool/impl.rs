@@ -9,7 +9,8 @@ impl ThreadPool {
     #[inline]
     pub fn new(size: usize) -> ThreadPool {
         let (sender, receiver) = mpsc::channel();
-        let receiver: Arc<Mutex<Receiver<Box<dyn Fn() + Send>>>> = Arc::new(Mutex::new(receiver));
+        let receiver: Arc<Mutex<Receiver<Box<dyn FnOnce() + Send>>>> =
+            Arc::new(Mutex::new(receiver));
         let mut workers: Vec<Worker> = Vec::with_capacity(size);
         for id in 0..size {
             workers.push(Worker::new(id, Arc::clone(&receiver)));
@@ -20,7 +21,7 @@ impl ThreadPool {
     #[inline]
     pub fn execute<F>(&self, job: F)
     where
-        F: Fn() + Send + 'static,
+        F: FnOnce() + Send + 'static,
     {
         self.sender.send(Box::new(job)).unwrap();
     }
