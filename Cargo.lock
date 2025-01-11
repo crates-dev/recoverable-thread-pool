@@ -39,7 +39,7 @@ checksum = "17df7f52ecdb5131f4704f0cb16eeab135decd34d7f7fe17e65cbc43ba92c340"
 
 [[package]]
 name = "recoverable-thread-pool"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "lombok-macros",
  "recoverable-spawn",

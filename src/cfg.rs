@@ -1,6 +1,7 @@
 #[test]
 fn test() {
     use crate::*;
+    use std::{thread::sleep, time::Duration};
     let thread_pool: ThreadPool = ThreadPool::new(1);
     let first_res: SendResult = thread_pool.execute(
         || {
@@ -37,5 +38,5 @@ fn test() {
         },
     );
     println!("{:?}", second_res);
-    loop {}
+    sleep(Duration::from_secs(10));
 }
