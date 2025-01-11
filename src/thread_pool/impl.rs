@@ -27,14 +27,15 @@ impl ThreadPool {
     }
 
     #[inline]
-    pub fn execute<F, E>(&self, job: F, handle_error: E) -> SendResult
+    pub fn execute<F, E, L>(&self, job: F, handle_error: E, finally: L) -> SendResult
     where
         F: RecoverableFunction,
         E: ErrorHandlerFunction,
+        L: RecoverableFunction,
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
             let handle_error_arc: Arc<E> = Arc::new(handle_error);
-            let _ = recoverable_spawn_with_error_handle(
+            let _ = recoverable_spawn_catch_finally(
                 move || {
                     job();
                 },
@@ -45,6 +46,9 @@ impl ThreadPool {
                         let arc_err_string_clone: Arc<String> = Arc::clone(&err_string_arc);
                         handle_error_arc_clone(arc_err_string_clone.as_ref());
                     });
+                },
+                move || {
+                    finally();
                 },
             )
             .join();

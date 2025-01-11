@@ -7,6 +7,9 @@ fn test() {
             println!("first");
         },
         |_err| {},
+        || {
+            println!("finally");
+        },
     );
     println!("{:?}", first_res);
     let panic_res: SendResult = thread_pool.execute(
@@ -17,13 +20,21 @@ fn test() {
             println!("Catch panic {}", err);
             panic!("[panic]");
         },
+        || {
+            println!("finally");
+        },
     );
     println!("{:?}", panic_res);
     let second_res: SendResult = thread_pool.execute(
         || {
-            println!("second");
+            panic!("[panic]");
         },
-        |_err| {},
+        |_err| {
+            panic!("[panic]");
+        },
+        || {
+            println!("finally");
+        },
     );
     println!("{:?}", second_res);
     loop {}
