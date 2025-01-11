@@ -37,6 +37,7 @@ let panic_res: SendResult = thread_pool.execute(
     },
     |err| {
         println!("Catch panic {}", err);
+        panic!("[panic]");
     },
 );
 println!("{:?}", panic_res);

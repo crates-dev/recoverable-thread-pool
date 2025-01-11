@@ -15,6 +15,7 @@ fn test() {
         },
         |err| {
             println!("Catch panic {}", err);
+            panic!("[panic]");
         },
     );
     println!("{:?}", panic_res);

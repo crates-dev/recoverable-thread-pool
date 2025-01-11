@@ -12,8 +12,16 @@ impl ThreadPool {
         let (sender, receiver) = mpsc::channel();
         let receiver: Arc<Mutex<Receiver<ThreadPoolJob>>> = Arc::new(Mutex::new(receiver));
         let mut workers: Vec<Worker> = Vec::with_capacity(size);
-        for id in 0..size {
-            workers.push(Worker::new(id, Arc::clone(&receiver)));
+        let mut id: usize = 0;
+        loop {
+            if id >= size {
+                break;
+            }
+            let worker: Option<Worker> = Worker::new(id, Arc::clone(&receiver));
+            if worker.is_some() {
+                workers.push(worker.unwrap_or_default());
+                id += 1;
+            }
         }
         ThreadPool { workers, sender }
     }
@@ -24,23 +32,19 @@ impl ThreadPool {
         F: RecoverableFunction,
         E: ErrorHandlerFunction,
     {
-        let arc_job: Arc<F> = Arc::new(job);
-        let arc_handle_error: Arc<E> = Arc::new(handle_error);
         let job_with_handler: ThreadPoolJob = Box::new(move || {
-            let arc_job_clone: Arc<F> = Arc::clone(&arc_job);
-            let arc_handle_error_clone: Arc<E> = Arc::clone(&arc_handle_error);
+            let handle_error_arc: Arc<E> = Arc::new(handle_error);
             let _ = recoverable_spawn_with_error_handle(
                 move || {
-                    arc_job_clone();
+                    job();
                 },
-                move |err_string| {
-                    let arc_err_string: Arc<String> = Arc::new(err_string.to_string());
-                    let arc_handle_error_clone_clone: Arc<E> = Arc::clone(&arc_handle_error_clone);
-                    let _ = recoverable_spawn(move || {
-                        let arc_err_string_clone: Arc<String> = Arc::clone(&arc_err_string);
-                        arc_handle_error_clone_clone(arc_err_string_clone.as_ref());
-                    })
-                    .join();
+                move |err_str| {
+                    let err_string_arc: Arc<String> = Arc::new(err_str.to_string());
+                    let handle_error_arc_clone: Arc<E> = Arc::clone(&handle_error_arc);
+                    let _ = run_function(move || {
+                        let arc_err_string_clone: Arc<String> = Arc::clone(&err_string_arc);
+                        handle_error_arc_clone(arc_err_string_clone.as_ref());
+                    });
                 },
             )
             .join();
