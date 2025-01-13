@@ -34,21 +34,39 @@ impl ThreadPool {
         L: RecoverableFunction,
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
-            let handle_error_arc: Arc<E> = Arc::new(handle_error);
             let _ = recoverable_spawn_catch_finally(
                 move || {
                     job();
                 },
                 move |err_str| {
-                    let err_string_arc: Arc<String> = Arc::new(err_str.to_string());
-                    let handle_error_arc_clone: Arc<E> = Arc::clone(&handle_error_arc);
-                    let _ = run_function(move || {
-                        let arc_err_string_clone: Arc<String> = Arc::clone(&err_string_arc);
-                        handle_error_arc_clone(arc_err_string_clone.as_ref());
-                    });
+                    handle_error(err_str);
                 },
                 move || {
                     finally();
+                },
+            )
+            .join();
+        });
+        self.sender.send(job_with_handler)
+    }
+
+    #[inline]
+    pub fn async_execute<F, E, L>(&self, job: F, handle_error: E, finally: L) -> SendResult
+    where
+        F: AsyncRecoverableFunction,
+        E: AsyncErrorHandlerFunction,
+        L: AsyncRecoverableFunction,
+    {
+        let job_with_handler = Box::new(move || {
+            let _ = async_recoverable_spawn_catch_finally(
+                move || async move {
+                    job.call().await;
+                },
+                move |err_str| async move {
+                    handle_error.call(err_str).await;
+                },
+                move || async move {
+                    finally.call().await;
                 },
             )
             .join();
