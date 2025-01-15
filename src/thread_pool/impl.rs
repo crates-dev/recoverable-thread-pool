@@ -58,18 +58,21 @@ impl ThreadPool {
         L: AsyncRecoverableFunction,
     {
         let job_with_handler = Box::new(move || {
-            let _ = async_recoverable_spawn_catch_finally(
-                move || async move {
-                    job.call().await;
-                },
-                move |err_str| async move {
-                    handle_error.call(err_str).await;
-                },
-                move || async move {
-                    finally.call().await;
-                },
-            )
-            .join();
+            let run_result: AsyncSpawnResult = async_run_function(move || async {
+                job.call().await;
+            });
+            if let Err(err) = run_result {
+                let err_string: String = tokio_error_to_string(err);
+                let _: AsyncSpawnResult = async_run_error_handle_function(
+                    move |err_str| async move {
+                        handle_error.call(err_str).await;
+                    },
+                    Arc::new(err_string),
+                );
+            }
+            let _: AsyncSpawnResult = async_run_function(move || async {
+                finally.call().await;
+            });
         });
         self.sender.send(job_with_handler)
     }
