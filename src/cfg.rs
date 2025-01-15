@@ -3,30 +3,20 @@ fn test() {
     use crate::*;
     use std::{thread::sleep, time::Duration};
     let thread_pool: ThreadPool = ThreadPool::new(1);
-    let first_res: SendResult = thread_pool.execute(
-        || {
-            println!("first");
-        },
-        |_err| {},
-        || {
-            println!("finally");
-        },
-    );
+    let first_res: SendResult = thread_pool.execute(|| {
+        println!("first");
+    });
     println!("{:?}", first_res);
-    let panic_res: SendResult = thread_pool.execute(
+    let panic_res: SendResult = thread_pool.execute_with_catch(
         || {
             panic!("[panic]");
         },
         |err| {
             println!("Catch panic {}", err);
-            panic!("[panic]");
-        },
-        || {
-            println!("finally");
         },
     );
     println!("{:?}", panic_res);
-    let second_res: SendResult = thread_pool.execute(
+    let second_res: SendResult = thread_pool.execute_with_catch_finally(
         || {
             panic!("[panic]");
         },
@@ -46,30 +36,20 @@ fn async_test() {
     use crate::*;
     use std::{thread::sleep, time::Duration};
     let thread_pool: ThreadPool = ThreadPool::new(1);
-    let first_res: SendResult = thread_pool.async_execute(
-        || async {
-            println!("first");
-        },
-        |_err| async {},
-        || async {
-            println!("finally");
-        },
-    );
+    let first_res: SendResult = thread_pool.async_execute(|| async {
+        println!("first");
+    });
     println!("{:?}", first_res);
-    let panic_res: SendResult = thread_pool.async_execute(
+    let panic_res: SendResult = thread_pool.async_execute_with_catch(
         || async {
             panic!("[panic]");
         },
         |err| async move {
             println!("Catch panic {}", err);
-            panic!("[panic]");
-        },
-        || async {
-            println!("finally");
         },
     );
     println!("{:?}", panic_res);
-    let second_res: SendResult = thread_pool.async_execute(
+    let second_res: SendResult = thread_pool.async_execute_with_catch_finally(
         || async {
             panic!("[panic]");
         },

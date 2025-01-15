@@ -27,31 +27,96 @@ impl ThreadPool {
     }
 
     #[inline]
-    pub fn execute<F, E, L>(&self, job: F, handle_error: E, finally: L) -> SendResult
+    pub fn execute<F>(&self, job: F) -> SendResult
+    where
+        F: RecoverableFunction,
+    {
+        let job_with_handler: ThreadPoolJob = Box::new(move || {
+            let _ = run_function(job);
+        });
+        self.sender.send(job_with_handler)
+    }
+
+    #[inline]
+    pub fn execute_with_catch<F, E>(&self, job: F, handle_error: E) -> SendResult
+    where
+        F: RecoverableFunction,
+        E: ErrorHandlerFunction,
+    {
+        let job_with_handler: ThreadPoolJob = Box::new(move || {
+            if let Err(err) = run_function(job) {
+                let err_string: String = spawn_error_to_string(err);
+                let _ = run_error_handle_function(handle_error, &err_string);
+            }
+        });
+        self.sender.send(job_with_handler)
+    }
+
+    #[inline]
+    pub fn execute_with_catch_finally<F, E, L>(
+        &self,
+        job: F,
+        handle_error: E,
+        finally: L,
+    ) -> SendResult
     where
         F: RecoverableFunction,
         E: ErrorHandlerFunction,
         L: RecoverableFunction,
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
-            let _ = recoverable_spawn_catch_finally(
-                move || {
-                    job();
-                },
-                move |err_str| {
-                    handle_error(err_str);
-                },
-                move || {
-                    finally();
-                },
-            )
-            .join();
+            if let Err(err) = run_function(job) {
+                let err_string: String = spawn_error_to_string(err);
+                let _ = run_error_handle_function(handle_error, &err_string);
+            }
+            let _ = run_function(finally);
         });
         self.sender.send(job_with_handler)
     }
 
     #[inline]
-    pub fn async_execute<F, E, L>(&self, job: F, handle_error: E, finally: L) -> SendResult
+    pub fn async_execute<F>(&self, job: F) -> SendResult
+    where
+        F: AsyncRecoverableFunction,
+    {
+        let job_with_handler = Box::new(move || {
+            let _ = async_run_function(move || async {
+                job.call().await;
+            });
+        });
+        self.sender.send(job_with_handler)
+    }
+
+    #[inline]
+    pub fn async_execute_with_catch<F, E>(&self, job: F, handle_error: E) -> SendResult
+    where
+        F: AsyncRecoverableFunction,
+        E: AsyncErrorHandlerFunction,
+    {
+        let job_with_handler = Box::new(move || {
+            let run_result: AsyncSpawnResult = async_run_function(move || async {
+                job.call().await;
+            });
+            if let Err(err) = run_result {
+                let err_string: String = tokio_error_to_string(err);
+                let _: AsyncSpawnResult = async_run_error_handle_function(
+                    move |err_str| async move {
+                        handle_error.call(err_str).await;
+                    },
+                    Arc::new(err_string),
+                );
+            }
+        });
+        self.sender.send(job_with_handler)
+    }
+
+    #[inline]
+    pub fn async_execute_with_catch_finally<F, E, L>(
+        &self,
+        job: F,
+        handle_error: E,
+        finally: L,
+    ) -> SendResult
     where
         F: AsyncRecoverableFunction,
         E: AsyncErrorHandlerFunction,
