@@ -80,9 +80,9 @@ dependencies = [
 
 [[package]]
 name = "lombok-macros"
-version = "1.7.0"
+version = "1.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01686dff91f3191b201bfe504889b27d145af69525478a52fc27e2ef8f52a9b2"
+checksum = "7992ac7eb5f5172f7451f00a7af76e447f88a1b84020b438682789049bd5b849"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "recoverable-thread-pool"
-version = "2.0.2"
+version = "2.0.3"
 dependencies = [
  "lombok-macros",
  "recoverable-spawn",
