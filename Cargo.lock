@@ -80,9 +80,9 @@ dependencies = [
 
 [[package]]
 name = "lombok-macros"
-version = "1.7.1"
+version = "1.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7992ac7eb5f5172f7451f00a7af76e447f88a1b84020b438682789049bd5b849"
+checksum = "ac3a1f457ea8b03ddd966d80d3ff5642a440fc6293252e47777e22517ab4dbbc"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -179,9 +179,9 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "3.3.3"
+version = "3.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ff6bb813c8eedf7eb8b75a7da4dfaf57bcfcea5be43bca58cc1fa7cd1ad90336"
+checksum = "c360793fe65dba55ddcec06e6af90729ae5d97feecccb1296c5e0614eca0f492"
 dependencies = [
  "once_cell",
  "tokio",
@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "recoverable-thread-pool"
-version = "2.0.4"
+version = "2.0.5"
 dependencies = [
  "lombok-macros",
  "recoverable-spawn",
