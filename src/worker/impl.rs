@@ -6,10 +6,10 @@ use std::sync::{mpsc::Receiver, Arc, Mutex};
 impl Worker {
     #[inline]
     pub fn new(id: usize, receiver: Arc<Mutex<Receiver<ThreadPoolJob>>>) -> Option<Worker> {
-        recoverable_spawn(move || loop {
+        sync::recoverable_spawn(move || loop {
             if let Ok(receiver_lock) = receiver.lock() {
                 if let Ok(job) = receiver_lock.recv() {
-                    let _ = recoverable_spawn(job);
+                    let _ = sync::recoverable_spawn(job);
                 }
             }
         });

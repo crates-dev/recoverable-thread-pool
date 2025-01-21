@@ -32,7 +32,7 @@ impl ThreadPool {
         F: RecoverableFunction,
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
-            let _ = run_function(job);
+            let _ = sync::run_function(job);
         });
         self.sender.send(job_with_handler)
     }
@@ -44,9 +44,9 @@ impl ThreadPool {
         E: ErrorHandlerFunction,
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
-            if let Err(err) = run_function(job) {
-                let err_string: String = spawn_error_to_string(err);
-                let _ = run_error_handle_function(handle_error, &err_string);
+            if let Err(err) = sync::run_function(job) {
+                let err_string: String = sync::spawn_error_to_string(err);
+                let _ = sync::run_error_handle_function(handle_error, &err_string);
             }
         });
         self.sender.send(job_with_handler)
@@ -65,11 +65,11 @@ impl ThreadPool {
         L: RecoverableFunction,
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
-            if let Err(err) = run_function(job) {
-                let err_string: String = spawn_error_to_string(err);
-                let _ = run_error_handle_function(handle_error, &err_string);
+            if let Err(err) = sync::run_function(job) {
+                let err_string: String = sync::spawn_error_to_string(err);
+                let _ = sync::run_error_handle_function(handle_error, &err_string);
             }
-            let _ = run_function(finally);
+            let _ = sync::run_function(finally);
         });
         self.sender.send(job_with_handler)
     }

@@ -9,7 +9,7 @@ impl ThreadPool {
         F: AsyncRecoverableFunction,
     {
         let job_with_handler = Box::new(move || {
-            let _ = run_async_function(move || async {
+            let _ = r#async::run_function(move || async {
                 job.call().await;
             });
         });
@@ -23,12 +23,12 @@ impl ThreadPool {
         E: AsyncErrorHandlerFunction,
     {
         let job_with_handler = Box::new(move || {
-            let run_result: AsyncSpawnResult = run_async_function(move || async {
+            let run_result: AsyncSpawnResult = r#async::run_function(move || async {
                 job.call().await;
             });
             if let Err(err) = run_result {
-                let err_string: String = tokio_error_to_string(err);
-                let _: AsyncSpawnResult = run_async_error_handle_function(
+                let err_string: String = r#async::tokio_error_to_string(err);
+                let _: AsyncSpawnResult = r#async::run_error_handle_function(
                     move |err_str| async move {
                         handle_error.call(err_str).await;
                     },
@@ -52,19 +52,19 @@ impl ThreadPool {
         L: AsyncRecoverableFunction,
     {
         let job_with_handler = Box::new(move || {
-            let run_result: AsyncSpawnResult = run_async_function(move || async {
+            let run_result: AsyncSpawnResult = r#async::run_function(move || async {
                 job.call().await;
             });
             if let Err(err) = run_result {
-                let err_string: String = tokio_error_to_string(err);
-                let _: AsyncSpawnResult = run_async_error_handle_function(
+                let err_string: String = r#async::tokio_error_to_string(err);
+                let _: AsyncSpawnResult = r#async::run_error_handle_function(
                     move |err_str| async move {
                         handle_error.call(err_str).await;
                     },
                     Arc::new(err_string),
                 );
             }
-            let _: AsyncSpawnResult = run_async_function(move || async {
+            let _: AsyncSpawnResult = r#async::run_function(move || async {
                 finally.call().await;
             });
         });
