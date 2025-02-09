@@ -80,9 +80,9 @@ dependencies = [
 
 [[package]]
 name = "lombok-macros"
-version = "1.7.2"
+version = "1.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac3a1f457ea8b03ddd966d80d3ff5642a440fc6293252e47777e22517ab4dbbc"
+checksum = "09ef4d1374d56438de85a648837714144c55b8d50c7ed0aeb1ff53269228fa54"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -126,9 +126,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.20.2"
+version = "1.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
+checksum = "945462a4b81e43c4e3ba96bd7b49d834c6f61198356aa858733bc4acf3cbe62e"
 
 [[package]]
 name = "parking_lot"
@@ -179,9 +179,9 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "3.4.0"
+version = "3.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c02d7005acb0380d9c4abcd41bfc8b8567c16cc408d0d49e8a3c34a561f7793"
+checksum = "d8f83f9415c1dd5e5999bbbf97a4244386344b4e89552a547e0bcc3675b84024"
 dependencies = [
  "once_cell",
  "tokio",
@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "recoverable-thread-pool"
-version = "2.0.7"
+version = "2.0.8"
 dependencies = [
  "lombok-macros",
  "recoverable-spawn",

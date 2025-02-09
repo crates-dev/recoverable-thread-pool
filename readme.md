@@ -1,9 +1,13 @@
+<center>
+
 ## recoverable-thread-pool
 
 [![](https://img.shields.io/crates/v/recoverable-thread-pool.svg)](https://crates.io/crates/recoverable-thread-pool)
 [![](https://docs.rs/recoverable-thread-pool/badge.svg)](https://docs.rs/recoverable-thread-pool)
-[![](https://img.shields.io/crates/l/recoverable-thread-pool.svg)](./LICENSE)
 [![](https://github.com/ltpp-universe/recoverable-thread-pool/workflows/Rust/badge.svg)](https://github.com/ltpp-universe/recoverable-thread-pool/actions?query=workflow:Rust)
+[![](https://img.shields.io/crates/l/recoverable-thread-pool.svg)](./LICENSE)
+
+</center>
 
 [Official Documentation](https://docs.ltpp.vip/recoverable-thread-pool/)
 
