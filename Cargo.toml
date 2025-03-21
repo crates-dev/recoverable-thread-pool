@@ -1,7 +1,7 @@
 [package]
 name = "recoverable-thread-pool"
-version = "2.0.11"
-edition = "2021"
+version = "2.1.0"
+edition = "2024"
 authors = ["ltpp-universe <root@ltpp.vip>"] 
 license = "MIT"
 description = """A thread pool that supports automatic recovery from panics, allowing threads to restart after a panic. Useful for resilient and fault-tolerant concurrency in network and web programming."""
@@ -16,8 +16,8 @@ exclude = [
 ]
 
 [dependencies]
-lombok-macros = "1.8.1"
-recoverable-spawn = "3.4.3"
+lombok-macros = "1.9.0"
+recoverable-spawn = "3.5.0"
 
 [profile.dev]
 incremental = false

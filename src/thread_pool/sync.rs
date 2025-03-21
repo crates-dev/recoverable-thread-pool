@@ -1,9 +1,9 @@
 use super::r#type::ThreadPool;
-use crate::{worker::r#type::Worker, SendResult, ThreadPoolJob};
+use crate::{SendResult, ThreadPoolJob, worker::r#type::Worker};
 use recoverable_spawn::*;
 use std::sync::{
-    mpsc::{self, Receiver},
     Arc, Mutex,
+    mpsc::{self, Receiver},
 };
 
 impl ThreadPool {
