@@ -3,7 +3,6 @@ use recoverable_spawn::*;
 use std::sync::Arc;
 
 impl ThreadPool {
-    #[inline]
     pub fn async_execute<F>(&self, job: F) -> SendResult
     where
         F: AsyncRecoverableFunction,
@@ -16,7 +15,6 @@ impl ThreadPool {
         self.sender.send(job_with_handler)
     }
 
-    #[inline]
     pub fn async_execute_with_catch<F, E>(&self, job: F, handle_error: E) -> SendResult
     where
         F: AsyncRecoverableFunction,
@@ -39,7 +37,6 @@ impl ThreadPool {
         self.sender.send(job_with_handler)
     }
 
-    #[inline]
     pub fn async_execute_with_catch_finally<F, E, L>(
         &self,
         job: F,

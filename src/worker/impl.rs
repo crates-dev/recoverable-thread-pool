@@ -4,7 +4,6 @@ use recoverable_spawn::*;
 use std::sync::{Arc, Mutex, mpsc::Receiver};
 
 impl Worker {
-    #[inline]
     pub fn new(id: usize, receiver: Arc<Mutex<Receiver<ThreadPoolJob>>>) -> Option<Worker> {
         sync::recoverable_spawn(move || {
             loop {

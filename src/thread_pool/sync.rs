@@ -7,7 +7,6 @@ use std::sync::{
 };
 
 impl ThreadPool {
-    #[inline]
     pub fn new(size: usize) -> ThreadPool {
         let (sender, receiver) = mpsc::channel();
         let receiver: Arc<Mutex<Receiver<ThreadPoolJob>>> = Arc::new(Mutex::new(receiver));
@@ -26,7 +25,6 @@ impl ThreadPool {
         ThreadPool { workers, sender }
     }
 
-    #[inline]
     pub fn execute<F>(&self, job: F) -> SendResult
     where
         F: RecoverableFunction,
@@ -37,7 +35,6 @@ impl ThreadPool {
         self.sender.send(job_with_handler)
     }
 
-    #[inline]
     pub fn execute_with_catch<F, E>(&self, job: F, handle_error: E) -> SendResult
     where
         F: RecoverableFunction,
@@ -52,7 +49,6 @@ impl ThreadPool {
         self.sender.send(job_with_handler)
     }
 
-    #[inline]
     pub fn execute_with_catch_finally<F, E, L>(
         &self,
         job: F,
