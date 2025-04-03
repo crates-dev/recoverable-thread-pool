@@ -31,8 +31,8 @@ fn test() {
     sleep(Duration::from_secs(10));
 }
 
-#[test]
-fn async_test() {
+#[tokio::test(flavor = "multi_thread")]
+async fn async_test() {
     use crate::*;
     use std::{thread::sleep, time::Duration};
     let thread_pool: ThreadPool = ThreadPool::new(1);

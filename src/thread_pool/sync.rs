@@ -42,7 +42,7 @@ impl ThreadPool {
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
             if let Err(err) = sync::run_function(job) {
-                let err_string: String = sync::spawn_error_to_string(err);
+                let err_string: String = sync::spawn_error_to_string(&err);
                 let _ = sync::run_error_handle_function(handle_error, &err_string);
             }
         });
@@ -62,7 +62,7 @@ impl ThreadPool {
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
             if let Err(err) = sync::run_function(job) {
-                let err_string: String = sync::spawn_error_to_string(err);
+                let err_string: String = sync::spawn_error_to_string(&err);
                 let _ = sync::run_error_handle_function(handle_error, &err_string);
             }
             let _ = sync::run_function(finally);
