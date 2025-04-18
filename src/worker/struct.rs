@@ -1,4 +1,4 @@
-use lombok_macros::*;
+use crate::*;
 
 #[allow(dead_code)]
 #[derive(Lombok, Debug, Default)]

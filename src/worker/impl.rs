@@ -1,4 +1,4 @@
-use super::r#type::Worker;
+use super::r#struct::Worker;
 use crate::thread_pool::r#type::ThreadPoolJob;
 use recoverable_spawn::*;
 use std::{

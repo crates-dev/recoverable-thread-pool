@@ -1,7 +1,5 @@
 use crate::*;
-use recoverable_spawn::*;
-use std::sync::Arc;
-use tokio::runtime::Builder;
+use recoverable_spawn::r#async::*;
 
 impl ThreadPool {
     pub fn async_execute<F>(&self, job: F) -> SendResult
@@ -14,7 +12,7 @@ impl ThreadPool {
                 .build()
                 .unwrap()
                 .block_on(async move {
-                    let _ = r#async::async_run_function(move || async {
+                    let _ = async_run_function(move || async {
                         job.call().await;
                     })
                     .await;
@@ -34,13 +32,13 @@ impl ThreadPool {
                 .build()
                 .unwrap()
                 .block_on(async move {
-                    let run_result: AsyncSpawnResult = r#async::async_run_function(move || async {
+                    let run_result: AsyncSpawnResult = async_run_function(move || async {
                         job.call().await;
                     })
                     .await;
                     if let Err(err) = run_result {
-                        let err_string: String = r#async::tokio_error_to_string(&err);
-                        let _: AsyncSpawnResult = r#async::async_run_error_handle_function(
+                        let err_string: String = tokio_error_to_string(&err);
+                        let _: AsyncSpawnResult = async_run_error_handle_function(
                             move |err_str| async move {
                                 handle_error.call(err_str).await;
                             },
@@ -70,13 +68,13 @@ impl ThreadPool {
                 .build()
                 .unwrap()
                 .block_on(async move {
-                    let run_result: AsyncSpawnResult = r#async::async_run_function(move || async {
+                    let run_result: AsyncSpawnResult = async_run_function(move || async {
                         job.call().await;
                     })
                     .await;
                     if let Err(err) = run_result {
-                        let err_string: String = r#async::tokio_error_to_string(&err);
-                        let _: AsyncSpawnResult = r#async::async_run_error_handle_function(
+                        let err_string: String = tokio_error_to_string(&err);
+                        let _: AsyncSpawnResult = async_run_error_handle_function(
                             move |err_str| async move {
                                 handle_error.call(err_str).await;
                             },
@@ -84,7 +82,7 @@ impl ThreadPool {
                         )
                         .await;
                     }
-                    let _: AsyncSpawnResult = r#async::async_run_function(move || async {
+                    let _: AsyncSpawnResult = async_run_function(move || async {
                         finally.call().await;
                     })
                     .await;
