@@ -1,7 +1,7 @@
 use crate::*;
 
 #[allow(dead_code)]
-#[derive(Lombok, Debug, Default)]
+#[derive(Data, Debug, Default)]
 pub struct Worker {
     pub(super) id: usize,
 }
