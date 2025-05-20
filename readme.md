@@ -5,7 +5,7 @@
 [![](https://img.shields.io/crates/v/recoverable-thread-pool.svg)](https://crates.io/crates/recoverable-thread-pool)
 [![](https://img.shields.io/crates/d/recoverable-thread-pool.svg)](https://img.shields.io/crates/d/recoverable-thread-pool.svg)
 [![](https://docs.rs/recoverable-thread-pool/badge.svg)](https://docs.rs/recoverable-thread-pool)
-[![](https://github.com/ltpp-universe/recoverable-thread-pool/workflows/Rust/badge.svg)](https://github.com/ltpp-universe/recoverable-thread-pool/actions?query=workflow:Rust)
+[![](https://github.com/eastspire/recoverable-thread-pool/workflows/Rust/badge.svg)](https://github.com/eastspire/recoverable-thread-pool/actions?query=workflow:Rust)
 [![](https://img.shields.io/crates/l/recoverable-thread-pool.svg)](./LICENSE)
 
 </center>
@@ -104,4 +104,4 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 ## Contact
 
-For any inquiries, please reach out to the author at [ltpp-universe <root@ltpp.vip>](mailto:root@ltpp.vip).
+For any inquiries, please reach out to the author at [root@ltpp.vip](mailto:root@ltpp.vip).
