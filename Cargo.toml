@@ -1,6 +1,6 @@
 [package]
 name = "recoverable-thread-pool"
-version = "2.3.6"
+version = "2.3.7"
 edition = "2024"
 authors = ["root@ltpp.vip"] 
 license = "MIT"
@@ -16,7 +16,7 @@ exclude = [
 ]
 
 [dependencies]
-lombok-macros = "1.11.3"
+lombok-macros = "1.11.4"
 recoverable-spawn = "3.7.11"
 tokio = { version = "1.45.0", features = ["full"] }
 
