@@ -1,8 +1,8 @@
 [package]
 name = "recoverable-thread-pool"
-version = "2.3.8"
+version = "2.3.10"
 edition = "2024"
-authors = ["root@ltpp.vip"] 
+authors = ["root@ltpp.vip"]
 license = "MIT"
 description = """A thread pool that supports automatic recovery from panics, allowing threads to restart after a panic. Useful for resilient and fault-tolerant concurrency in network and web programming."""
 keywords = ["time", "hyperlane", "day", "format", "lang"]
@@ -16,8 +16,8 @@ exclude = [
 ]
 
 [dependencies]
-recoverable-spawn = "3.7.11"
-tokio = { version = "1.45.1", features = ["full"] }
+recoverable-spawn = "3.7.13"
+tokio = { version = "1.46.1", features = ["full"] }
 
 [profile.dev]
 incremental = false
