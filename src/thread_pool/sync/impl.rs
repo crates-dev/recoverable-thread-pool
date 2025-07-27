@@ -1,7 +1,17 @@
 use crate::*;
 use recoverable_spawn::sync::*;
 
+/// Sync implementation of thread pool operations.
 impl ThreadPool {
+    /// Creates a new thread pool with the specified number of workers.
+    ///
+    /// # Arguments
+    ///
+    /// - `usize` - The number of worker threads to create.
+    ///
+    /// # Returns
+    ///
+    /// - `ThreadPool` - The new thread pool instance.
     pub fn new(size: usize) -> ThreadPool {
         let (sender, receiver) = mpsc::channel();
         let receiver: Arc<Mutex<Receiver<ThreadPoolJob>>> = Arc::new(Mutex::new(receiver));
@@ -20,6 +30,15 @@ impl ThreadPool {
         ThreadPool { workers, sender }
     }
 
+    /// Executes a synchronous job in the thread pool.
+    ///
+    /// # Arguments
+    ///
+    /// - `F` - The synchronous function to execute.
+    ///
+    /// # Returns
+    ///
+    /// - `SendResult` - Result of the job submission.
     pub fn execute<F>(&self, job: F) -> SendResult
     where
         F: RecoverableFunction,
@@ -30,6 +49,16 @@ impl ThreadPool {
         self.sender.send(job_with_handler)
     }
 
+    /// Executes a synchronous job with error handling in the thread pool.
+    ///
+    /// # Arguments
+    ///
+    /// - `F` - The synchronous function to execute.
+    /// - `E` - The error handler function.
+    ///
+    /// # Returns
+    ///
+    /// - `SendResult` - Result of the job submission.
     pub fn execute_with_catch<F, E>(&self, job: F, handle_error: E) -> SendResult
     where
         F: RecoverableFunction,
@@ -44,6 +73,17 @@ impl ThreadPool {
         self.sender.send(job_with_handler)
     }
 
+    /// Executes a synchronous job with error handling and finalization in the thread pool.
+    ///
+    /// # Arguments
+    ///
+    /// - `F` - The synchronous function to execute.
+    /// - `E` - The error handler function.
+    /// - `L` - The finally handler function.
+    ///
+    /// # Returns
+    ///
+    /// - `SendResult` - Result of the job submission.
     pub fn execute_with_catch_finally<F, E, L>(
         &self,
         job: F,

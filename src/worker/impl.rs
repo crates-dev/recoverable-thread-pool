@@ -6,7 +6,18 @@ use std::{
     thread::spawn,
 };
 
+/// Worker implementation for handling thread pool jobs.
 impl Worker {
+    /// Creates a new worker thread.
+    ///
+    /// # Arguments
+    ///
+    /// - `usize` - The worker identifier.
+    /// - `Arc<Mutex<Receiver<ThreadPoolJob>>>` - The shared job receiver.
+    ///
+    /// # Returns
+    ///
+    /// - `Option<Worker>` - The new worker instance.
     pub fn new(id: usize, receiver: Arc<Mutex<Receiver<ThreadPoolJob>>>) -> Option<Worker> {
         spawn(|| {
             let _ = sync::recoverable_spawn(move || {

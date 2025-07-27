@@ -1,7 +1,17 @@
 use crate::*;
 use recoverable_spawn::r#async::*;
 
+/// Async implementation of thread pool operations.
 impl ThreadPool {
+    /// Executes an async job in the thread pool.
+    ///
+    /// # Arguments
+    ///
+    /// - `F` - The async function to execute.
+    ///
+    /// # Returns
+    ///
+    /// - `SendResult` - Result of the job submission.
     pub fn async_execute<F>(&self, job: F) -> SendResult
     where
         F: AsyncRecoverableFunction,
@@ -21,6 +31,16 @@ impl ThreadPool {
         self.sender.send(job_with_handler)
     }
 
+    /// Executes an async job with error handling in the thread pool.
+    ///
+    /// # Arguments
+    ///
+    /// - `F` - The async function to execute.
+    /// - `E` - The async error handler function.
+    ///
+    /// # Returns
+    ///
+    /// - `SendResult` - Result of the job submission.
     pub fn async_execute_with_catch<F, E>(&self, job: F, handle_error: E) -> SendResult
     where
         F: AsyncRecoverableFunction,
@@ -51,6 +71,17 @@ impl ThreadPool {
         self.sender.send(job_with_handler)
     }
 
+    /// Executes an async job with error handling and finalization in the thread pool.
+    ///
+    /// # Arguments
+    ///
+    /// - `F` - The async function to execute.
+    /// - `E` - The async error handler function.
+    /// - `L` - The async finally handler function.
+    ///
+    /// # Returns
+    ///
+    /// - `SendResult` - Result of the job submission.
     pub fn async_execute_with_catch_finally<F, E, L>(
         &self,
         job: F,
