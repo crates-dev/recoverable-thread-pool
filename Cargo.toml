@@ -1,13 +1,13 @@
 [package]
 name = "recoverable-thread-pool"
-version = "2.4.2"
+version = "2.4.3"
 readme = "README.md"
 edition = "2024"
 authors = ["root@ltpp.vip"]
 license = "MIT"
 description = """A thread pool that supports automatic recovery from panics, allowing threads to restart after a panic. Useful for resilient and fault-tolerant concurrency in network and web programming."""
 keywords = ["time", "hyperlane", "day", "format", "lang"]
-repository = "https://github.com/eastspire/recoverable-thread-pool.git"
+repository = "https://github.com/crates-dev/recoverable-thread-pool.git"
 categories = ["network-programming", "web-programming"]
 exclude = [
     "target",
@@ -17,7 +17,7 @@ exclude = [
 ]
 
 [dependencies]
-recoverable-spawn = "3.9.1"
+recoverable-spawn = "3.9.3"
 tokio = { version = "1.47.1", features = ["full"] }
 
 [profile.dev]
