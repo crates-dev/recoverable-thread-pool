@@ -6,16 +6,16 @@ fn test() {
     let first_res: SendResult = thread_pool.execute(|| {
         println!("first");
     });
-    println!("{:?}", first_res);
+    println!("{first_res:?}");
     let panic_res: SendResult = thread_pool.execute_with_catch(
         || {
             panic!("[panic]");
         },
         |err| {
-            println!("Catch panic {}", err);
+            println!("Catch panic {err}");
         },
     );
-    println!("{:?}", panic_res);
+    println!("{panic_res:?}");
     let second_res: SendResult = thread_pool.execute_with_catch_finally(
         || {
             panic!("[panic]");
@@ -27,7 +27,7 @@ fn test() {
             println!("finally");
         },
     );
-    println!("{:?}", second_res);
+    println!("{second_res:?}");
     sleep(Duration::from_secs(10));
 }
 
@@ -39,16 +39,16 @@ async fn async_test() {
     let first_res: SendResult = thread_pool.async_execute(|| async {
         println!("first");
     });
-    println!("{:?}", first_res);
+    println!("{first_res:?}");
     let panic_res: SendResult = thread_pool.async_execute_with_catch(
         || async {
             panic!("[panic]");
         },
         |err| async move {
-            println!("Catch panic {}", err);
+            println!("Catch panic {err}");
         },
     );
-    println!("{:?}", panic_res);
+    println!("{panic_res:?}");
     let second_res: SendResult = thread_pool.async_execute_with_catch_finally(
         || async {
             panic!("[panic]");
@@ -60,6 +60,6 @@ async fn async_test() {
             println!("finally");
         },
     );
-    println!("{:?}", second_res);
+    println!("{second_res:?}");
     sleep(Duration::from_secs(10));
 }
