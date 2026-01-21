@@ -1,7 +1,9 @@
-pub(crate) mod r#async;
+pub(crate) mod r#impl;
 pub(crate) mod r#struct;
-pub(crate) mod sync;
 pub(crate) mod r#type;
+
+#[cfg(test)]
+mod test;
 
 pub use r#struct::*;
 pub use r#type::*;

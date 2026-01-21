@@ -16,11 +16,11 @@ pub struct ThreadPool {
     ///
     /// - `Vec<Worker>` - The collection of worker threads.
     #[allow(dead_code)]
-    pub(super) workers: Vec<Worker>,
+    pub(crate) workers: Vec<Worker>,
     /// The sender channel for submitting jobs to workers.
     ///
     /// # Returns
     ///
     /// - `Sender<ThreadPoolJob>` - The sender channel for submitting jobs to workers.
-    pub(super) sender: Sender<ThreadPoolJob>,
+    pub(crate) sender: Sender<ThreadPoolJob>,
 }

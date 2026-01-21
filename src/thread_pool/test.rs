@@ -1,7 +1,7 @@
+use crate::*;
+
 #[test]
 fn test() {
-    use crate::*;
-    use std::{thread::sleep, time::Duration};
     let thread_pool: ThreadPool = ThreadPool::new(1);
     let first_res: SendResult = thread_pool.execute(|| {
         println!("first");
@@ -33,8 +33,6 @@ fn test() {
 
 #[tokio::test(flavor = "multi_thread")]
 async fn async_test() {
-    use crate::*;
-    use std::{thread::sleep, time::Duration};
     let thread_pool: ThreadPool = ThreadPool::new(1);
     let first_res: SendResult = thread_pool.async_execute(|| async {
         println!("first");

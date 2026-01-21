@@ -1,5 +1,4 @@
 use crate::*;
-use recoverable_spawn::*;
 
 /// A job that can be executed by the thread pool.
 pub type ThreadPoolJob = Box<dyn RecoverableFunction>;

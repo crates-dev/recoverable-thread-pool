@@ -1,10 +1,4 @@
-use super::r#struct::Worker;
-use crate::thread_pool::r#type::ThreadPoolJob;
-use recoverable_spawn::*;
-use std::{
-    sync::{Arc, Mutex, mpsc::Receiver},
-    thread::spawn,
-};
+use crate::*;
 
 /// Worker implementation for handling thread pool jobs.
 impl Worker {
@@ -20,12 +14,12 @@ impl Worker {
     /// - `Option<Worker>` - The new worker instance.
     pub fn new(id: usize, receiver: Arc<Mutex<Receiver<ThreadPoolJob>>>) -> Option<Worker> {
         spawn(|| {
-            let _ = sync::recoverable_spawn(move || {
+            let _ = recoverable_spawn(move || {
                 loop {
                     if let Ok(receiver_lock) = receiver.lock()
                         && let Ok(job) = receiver_lock.recv()
                     {
-                        let _ = sync::recoverable_spawn(job);
+                        let _ = recoverable_spawn(job);
                     }
                 }
             });
