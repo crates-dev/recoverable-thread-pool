@@ -12,7 +12,7 @@
 
 [Official Documentation](https://docs.ltpp.vip/recoverable-thread-pool/)
 
-[Api Docs](https://docs.rs/recoverable-thread-pool/latest/recoverable_thread_pool/)
+[Api Docs](https://docs.rs/recoverable-thread-pool/latest/)
 
 > A thread pool that supports automatic recovery from panics, allowing threads to restart after a panic. Useful for resilient and fault-tolerant concurrency in network and web programming.
 

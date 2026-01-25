@@ -1,6 +1,6 @@
 [package]
 name = "recoverable-thread-pool"
-version = "2.4.16"
+version = "2.4.17"
 readme = "README.md"
 edition = "2024"
 authors = ["root@ltpp.vip"]
@@ -12,7 +12,7 @@ categories = ["network-programming", "web-programming"]
 exclude = ["target", "Cargo.lock", "sh", ".github"]
 
 [dependencies]
-recoverable-spawn = "3.9.16"
+recoverable-spawn = "3.9.17"
 tokio = { version = "1.49.0", features = ["full"] }
 
 [profile.dev]
