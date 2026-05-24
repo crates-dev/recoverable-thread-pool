@@ -16,7 +16,5 @@ use std::{
     },
     thread::spawn,
 };
-#[cfg(test)]
-use std::{thread::sleep, time::Duration};
 
 use {recoverable_spawn::*, tokio::runtime::Builder};
