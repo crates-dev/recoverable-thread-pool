@@ -4,3 +4,5 @@ mod r#type;
 
 pub use r#struct::*;
 pub use r#type::*;
+
+use super::*;

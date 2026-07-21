@@ -1,5 +1,6 @@
-use crate::*;
+use super::*;
 
+use std::sync::Arc;
 #[test]
 fn test() {
     let thread_pool: ThreadPool = ThreadPool::new(1);
@@ -11,7 +12,7 @@ fn test() {
         || {
             panic!("[panic]");
         },
-        |err| {
+        |err: &str| {
             println!("Catch panic {err}");
         },
     );
@@ -42,7 +43,7 @@ async fn async_test() {
         || async {
             panic!("[panic]");
         },
-        |err| async move {
+        |err: Arc<String>| async move {
             println!("Catch panic {err}");
         },
     );

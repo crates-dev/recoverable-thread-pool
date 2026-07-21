@@ -1,4 +1,4 @@
-use crate::*;
+use super::*;
 
 /// Worker implementation for handling thread pool jobs.
 impl Worker {

@@ -1,4 +1,4 @@
-use crate::*;
+use super::*;
 
 /// Sync implementation of thread pool operations.
 impl ThreadPool {
