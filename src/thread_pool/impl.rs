@@ -43,7 +43,7 @@ impl ThreadPool {
         F: RecoverableFunction,
     {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
-            let _ = run_function(job);
+            let _: std::thread::Result<()> = run_function(job);
         });
         self.sender.send(job_with_handler)
     }
@@ -66,7 +66,8 @@ impl ThreadPool {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
             if let Err(err) = run_function(job) {
                 let err_string: String = spawn_error_to_string(&err);
-                let _ = run_error_handle_function(handle_error, &err_string);
+                let _: std::thread::Result<()> =
+                    run_error_handle_function(handle_error, &err_string);
             }
         });
         self.sender.send(job_with_handler)
@@ -97,9 +98,10 @@ impl ThreadPool {
         let job_with_handler: ThreadPoolJob = Box::new(move || {
             if let Err(err) = run_function(job) {
                 let err_string: String = spawn_error_to_string(&err);
-                let _ = run_error_handle_function(handle_error, &err_string);
+                let _: std::thread::Result<()> =
+                    run_error_handle_function(handle_error, &err_string);
             }
-            let _ = run_function(finally);
+            let _: std::thread::Result<()> = run_function(finally);
         });
         self.sender.send(job_with_handler)
     }
@@ -123,7 +125,7 @@ impl ThreadPool {
                 .build()
                 .unwrap()
                 .block_on(async move {
-                    let _ = async_run_function(move || async {
+                    let _: AsyncSpawnResult = async_run_function(move || async {
                         job.call().await;
                     })
                     .await;
